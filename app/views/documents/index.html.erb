@@ -1,0 +1,32 @@
+<h1>My Documents</h1>
+
+<p>
+  <%= link_to "Upload New Document", new_document_path %>
+</p>
+
+<% if @documents.any? %>
+  <%= @documents.each do |doc| %>
+    <div style="border: 1px solid #ccc; padding: 12px; margin-bottom: 12px;">
+      
+      <p><strong>Type:</strong> <%= doc.document_type %></p>
+      <p><strong>Notes:</strong> <%= doc.notes.presence || "None" %></p>
+      <p><strong>Uploaded:</strong> <%= doc.created_at.strftime("%B %d, %Y") %></p>
+
+      <% if doc.file.attached? %>
+        <p>
+          <%= link_to "View File", url_for(doc.file), target: "_blank" %>
+        </p>
+      <% else %>
+        <p>No file attached</p>
+      <% end %>
+
+      <p>
+        <%= link_to "Delete", document_path(doc),
+            data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+      </p>
+
+    </div>
+  <% end %>
+<% else %>
+  <p>No documents uploaded yet.</p>
+  <% end %>

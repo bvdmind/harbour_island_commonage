@@ -1,0 +1,45 @@
+<h1>Edit Profile</h1>
+
+<%= form_with model: @user, url: users_path do |form| %>
+  <% if @user.errors.any? %>
+    <div>
+      <h3><%= pluralize(@user.errors.count, "error") %> prevented this profile from saving:</h3>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+
+  <div>
+    <%= form.label :first_name %><br>
+    <%= form.text_field :first_name %>
+  </div>
+
+  <div>
+    <%= form.label :last_name %><br>
+    <%= form.text_field :last_name %>
+  </div>
+
+  <div>
+    <%= form.label :phone %><br>
+    <%= form.text_field :phone %>
+  </div>
+
+  <div>
+    <%= form.label :address %><br>
+    <%= form.text_area :address %>
+  </div>
+
+  <div>
+    <%= form.label :photo %><br>
+    <%= form.file_field :photo %>
+  </div>
+
+  <div>
+    <%= form.submit "Update Profile" %>
+  </div>
+
+    <%= link_to "Back to Profile", users_path %>
+<% end %>

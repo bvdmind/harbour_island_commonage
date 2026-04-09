@@ -1,0 +1,19 @@
+<h1><%= @post.title %></h1>
+
+<p>
+  Posted by
+  <%= [@post.user.first_name, @post.user.last_name].join(" ").strip.presence || @post.user.email_address %>
+  on
+  <%= @post.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+</p>
+
+<p><%= simple_format(@post.body) %></p>
+
+<% if Current.user&.admin? %>
+  <p>
+    <%= link_to "Edit", edit_post_path(@post) %> |
+    <%= link_to "Delete", post_path(@post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+  </p>
+<% end %>
+
+<p><%= link_to "Back to Feed", posts_path %></p>

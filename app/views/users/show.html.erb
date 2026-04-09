@@ -1,1 +1,15 @@
-<= @user.properties />
+<h1>Profile</h1>
+
+<% if @user.photo.attached? %>
+  <%= image_tag @user.photo, width: 150 %>
+<% else %>
+  <p>No photo uploaded.</p>
+<% end %>
+
+<p><strong>First name:</strong> <%= @user.first_name %></p>
+<p><strong>Last name:</strong> <%= @user.last_name %></p>
+<p><strong>Phone:</strong> <%= @user.phone %></p>
+<p><strong>Address:</strong> <%= @user.address %></p>
+<p><strong>Verified:</strong> <%= @user.is_verified? ? "Yes" : "No" %></p>
+
+<%= link_to "Edit Profile", edit_users_path %>
