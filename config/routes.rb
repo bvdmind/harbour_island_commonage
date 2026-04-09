@@ -17,11 +17,11 @@ Rails.application.routes.draw do
   root "posts#index"
 
   resources :posts
-  resource :profile, only: %i[show edit update]
+  resource :users, only: %i[show edit update]
 
   resources :properties do
     resources :parcels, except: %i[index show]
   end
   resources :documents, only: %i[index new create destroy]
-  
+
 end

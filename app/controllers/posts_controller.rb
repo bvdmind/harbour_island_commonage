@@ -3,7 +3,7 @@ class PostsController < ApplicationController
     before_action :require_admin!, only: %i[new create edit update destroy]
 
     def index
-        @post = Post.includes(:user).order(created_at: :desc)
+        @posts = Post.includes(:user).order(created_at: :desc)
     end
 
     def show
