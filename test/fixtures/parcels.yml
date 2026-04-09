@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  property: one
+  name: MyString
+  center_latitude: 9.99
+  center_longitude: 9.99
+  polygon_geojson: 
+  area_acres: 9.99
+
+two:
+  property: two
+  name: MyString
+  center_latitude: 9.99
+  center_longitude: 9.99
+  polygon_geojson: 
+  area_acres: 9.99
