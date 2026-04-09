@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # README
 
 This README would normally document whatever steps are necessary to get the
@@ -22,3 +23,6 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+=======
+# harbour_island_commonage
+>>>>>>> 673cfb3aa15d326242f9705d3f1e71a0e3300b7c
