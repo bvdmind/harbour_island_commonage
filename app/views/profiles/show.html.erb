@@ -1,21 +1,19 @@
-<div class="box">
-  <% if @user.photo.attached? %>
-    <figure class="image is-128x128 mb-4">
-      <%= image_tag @user.photo, class: "is-rounded" %>
-    </figure>
-  <% end %>
+<% if @user.photo.attached? %>
+  <figure class="image is-192by192">
+    <%= image_tag @user.photo, width: 150, class: "is-rounded" %>
+  </figure>
+<% else %>
+  <figure class="image">
+    <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/128x128.png" />
+  </figure>
+<% end %>
 
-  <p><strong>Name:</strong> <%= [@user.first_name, @user.last_name].join(" ").strip %></p>
+<p><strong><%= @user.first_name.capitalize + " " + @user.last_name.capitalize %></strong></p>
+<p><strong><%= @user.phone %></strong></p>
+<p><strong><%= @user.address.capitalize %></strong></p>
+<p><strong>Verified:</strong> <%= @user.is_verified? ? "Yes" : "No" %></p>
 
-  <p>
-    <strong>Status:</strong>
-    <% if @user.is_verified? %>
-      <span class="tag is-success">Verified</span>
-    <% else %>
-      <span class="tag is-danger">Unverified</span>
-    <% end %>
-  </p>
-</div>
+<%= link_to "Edit Profile", edit_profile_path %>
 
 <h2 class="title is-4">Properties</h2>
 
@@ -34,7 +32,7 @@
 <% end %>
 
 <% if Current.user&.admin? || Current.user == @user %>
-  <h2 class="title is-4">Supporting Documents</h2>
+  <h2 class="title is-4">Documents</h2>
 
   <% if @user.documents.any? %>
     <% @user.documents.each do |doc| %>

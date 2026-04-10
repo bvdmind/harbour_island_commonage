@@ -1,6 +1,6 @@
 <h1>Edit Profile</h1>
 
-<%= form_with model: @user, url: users_path do |form| %>
+<%= form_with model: @user, url: profile_path do |form| %>
   <% if @user.errors.any? %>
     <div>
       <h3><%= pluralize(@user.errors.count, "error") %> prevented this profile from saving:</h3>
@@ -41,5 +41,5 @@
     <%= form.submit "Update Profile" %>
   </div>
 
-    <%= link_to "Back to Profile", users_path %>
+    <%= link_to "Back to Profile", profile_path %>
 <% end %>

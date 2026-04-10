@@ -1,0 +1,12 @@
+{
+  "name": "harbour_island_commonage",
+  "private": true,
+  "scripts": {
+    "build:css": "sass ./app/assets/stylesheets/application.bulma.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
+    "watch:css": "sass ./app/assets/stylesheets/application.bulma.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --watch"
+  },
+  "dependencies": {
+    "bulma": "^0.9.4",
+    "sass": "^1.77.8"
+  }
+}

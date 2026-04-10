@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resource :session
+  resource :session, only: %i[new create destroy]
   resources :passwords, param: :token
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -17,7 +17,8 @@ Rails.application.routes.draw do
   root "posts#index"
 
   resources :posts
-  resource :users, only: %i[show edit update]
+  resources :users, only: %i[new create index show]
+  resource :profile, only: %i[show edit update]
 
   resources :properties do
     resources :parcels, except: %i[index show]

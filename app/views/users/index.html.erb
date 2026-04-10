@@ -1,0 +1,43 @@
+<h1 class="title">Search</h1>
+
+<div class="box">
+  <%= form_with url: users_path, method: :get, local: true do %>
+    <div class="field has-addons">
+      <div class="control is-expanded">
+        <%= text_field_tag :q, @query, class: "input", placeholder: "Search by first name, last name, or email" %>
+      </div>
+      <div class="control">
+        <%= submit_tag "Search", class: "button is-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if @users.any? %>
+  <% @users.each do |user| %>
+    <div class="box">
+      <div class="is-flex is-align-items-center is-justify-content-space-between">
+        <div>
+          <p class="title is-5 mb-1">
+            <%= link_to "#{user.first_name} #{user.last_name}".strip.presence || user.email_address, user_path(user) %>
+          </p>
+          <p class="is-size-7 has-text-grey"><%= user.email_address %></p>
+
+          <% if user.is_verified? %>
+            <span class="tag is-success mt-2">Verified</span>
+          <% else %>
+            <span class="tag is-light mt-2">Unverified</span>
+          <% end %>
+        </div>
+
+        <div>
+          <%= link_to "View Profile", user_path(user), class: "button is-link is-light" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="notification is-light">
+    No users found.
+  </div>
+<% end %>

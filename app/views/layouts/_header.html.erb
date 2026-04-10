@@ -1,0 +1,27 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <%= link_to "Harbour Island Commonage", root_path, class: "navbar-item" %> 
+  </div>
+
+  <div id="navbarBasic" class="navbar-menu">
+    <div class="navbar-start">
+        <% if Current.user %>
+            <%= link_to "Profile", profile_path, class: "navbar-item" %>
+            <%= link_to "Documents", documents_path, class: "navbar-item" %>
+            <%= link_to "Search", users_path, class: "navbar-item" %>
+        <% end %>
+    </div>
+</div>
+
+<div class="navbar-end">
+  <div class="navbar-item">
+    <% if Current.user %>
+      <%= button_to "Logout", session_path, method: :delete, class: "button is-danger is-light" %>
+    <% else %>
+      <%= link_to "Sign in", new_session_path, class: "button is-primary" %>
+      <%= link_to "Sign up", new_user_path, class: "button is-primary is-light" %>
+    <% end %>
+  </div>
+</div>
+
+</nav>

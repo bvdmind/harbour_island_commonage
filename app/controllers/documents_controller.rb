@@ -12,7 +12,7 @@ class DocumentsController < ApplicationController
         @document = Current.user.documents.build(document_params)
 
         if @document.save
-            redirect_to verification_documents_path, notice: "Document uploaded."
+            redirect_to documents_path, notice: "Document uploaded."
         else
             render :new, status: :unprocessable_entity
         end
@@ -21,7 +21,7 @@ class DocumentsController < ApplicationController
     def destroy
         @document = Current.user.documents.find(params[:id])
         @document.destroy
-        redirect_to verification_documents_path, notice: "Document deleted."
+        redirect_to documents_path, notice: "Document deleted."
     end
 
     private
