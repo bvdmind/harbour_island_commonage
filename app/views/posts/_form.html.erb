@@ -1,26 +1,65 @@
 <%= form_with model: @post do |form| %>
   <% if @post.errors.any? %>
-    <div>
-      <h3><%= pluralize(@post.errors.count, "error") %> prevented this post from saving:</h3>
+    <div class="notification is-danger is-light">
+      <h3 class="title is-5">
+        <%= pluralize(@post.errors.count, "error") %> prevented this post from saving:
+      </h3>
+
       <ul>
         <% @post.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+          <li>• <%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :title %><br>
-    <%= form.text_field :title %>
+  <% if @post.image.attached? %>
+    <div class="field">
+      <label class="label">Current image</label>
+      <div class="mb-3">
+        <%= image_tag @post.image, style: "max-width: 300px;", class: "image" %>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            <%= form.check_box :remove_image %>
+            Remove current image
+          </label>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="field">
+      <label class="label">Image</label>
+      <p class="help">Upload an image for this post.</p>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <label class="label">Replace or upload image</label>
+    <div class="control">
+      <%= form.file_field :image, class: "input" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :body %><br>
-    <%= form.text_area :body, rows: 8 %>
+  <div class="field">
+    <%= form.label :title, class: "label" %>
+    <div class="control">
+      <%= form.text_field :title, class: "input", placeholder: "Enter post title" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="field">
+    <%= form.label :body, class: "label" %>
+    <div class="control">
+      <%= form.text_area :body, rows: 8, class: "textarea", placeholder: "Write your post here..." %>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <%= form.submit class: "button is-primary" %>
+    </div>
   </div>
 <% end %>

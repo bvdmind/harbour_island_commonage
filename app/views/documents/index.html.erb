@@ -1,32 +1,66 @@
-<h1>My Documents</h1>
+<div class="container">
+  <div class="columns is-centered">
+    <div class="column is-8">
+      <div class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+        <h1 class="title is-3">Documents</h1>
 
-<p>
-  <%= link_to "Upload New Document", new_document_path %>
-</p>
+        <%= link_to "New Document",
+                    new_document_path,
+                    class: "button is-primary" %>
+      </div>
 
-<% if @documents.any? %>
-  <%= @documents.each do |doc| %>
-    <div style="border: 1px solid #ccc; padding: 12px; margin-bottom: 12px;">
-      
-      <p><strong>Type:</strong> <%= doc.document_type %></p>
-      <p><strong>Notes:</strong> <%= doc.notes.presence || "None" %></p>
-      <p><strong>Uploaded:</strong> <%= doc.created_at.strftime("%B %d, %Y") %></p>
+      <% if @documents.any? %>
+        <% @documents.each do |doc| %>
+          <div class="box mb-4">
+            <p><strong>Type:</strong> <%= doc.document_type %></p>
+            <p><strong>Notes:</strong> <%= doc.notes.presence || "None" %></p>
+            <p class="is-size-7 has-text-grey">
+              Uploaded: <%= doc.created_at.strftime("%B %d, %Y") %>
+            </p>
 
-      <% if doc.file.attached? %>
-        <p>
-          <%= link_to "View File", url_for(doc.file), target: "_blank" %>
-        </p>
+            <p>
+              <strong>Status:</strong>
+              <% if doc.is_verified? %>
+                <span class="tag is-success is-light">Verified</span>
+              <% else %>
+                <span class="tag is-warning is-light">Pending</span>
+              <% end %>
+            </p>
+
+            <% if Current.user&.admin? %>
+              <%= button_to(
+              doc.is_verified? ? "Unverify" : "Verify",
+              toggle_verification_document_path(doc),
+              method: :patch,
+              data: {
+              turbo_confirm: doc.is_verified? ? "Unverify this document?" : "Verify this document?"
+              },
+              class: doc.is_verified? ? "button is-warning is-light" : "button is-success is-light"
+              ) %>
+            <% end %>
+
+            <div class="buttons mt-3">
+              <% if doc.file.attached? %>
+                <%= link_to "View File",
+                            url_for(doc.file),
+                            target: "_blank",
+                            class: "button in-link is-light" %>
+              <% else %>
+                <span class="button is-light">No file</span>
+              <% end %>
+
+              <%= link_to "Delete",
+                          document_path(doc),
+                          data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                          class: "button is-danger is-light" %>
+            </div>
+          </div>
+        <% end %>
       <% else %>
-        <p>No file attached</p>
+        <div class="notification is-light has-text-centered">
+          No documents uploaded yet.
+        </div>
       <% end %>
-
-      <p>
-        <%= link_to "Delete", document_path(doc),
-            data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-      </p>
-
     </div>
-    <% end %>
-<% else %>
-  <p>No documents uploaded yet.</p>
-<% end %>
+  </div>
+</div>

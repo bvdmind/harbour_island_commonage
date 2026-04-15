@@ -26,6 +26,10 @@ class PostsController < ApplicationController
     end
 
     def update
+        if params[:post][:remove_image] == "1"
+            @post.image.purge
+        end
+
         if @post.update(post_params)
             redirect_to @post, notice: "Post updated."
         else
@@ -45,7 +49,7 @@ class PostsController < ApplicationController
     end
 
     def post_params
-        params.require(:post).permit(:title, :body)
+        params.require(:post).permit(:title, :body, :image)
     end
 
     def require_admin!

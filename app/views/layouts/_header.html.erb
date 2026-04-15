@@ -1,27 +1,59 @@
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar is-light" role="navigation" aria-label="main navigation" data-controller="navbar">
   <div class="navbar-brand">
-    <%= link_to "Harbour Island Commonage", root_path, class: "navbar-item" %> 
+    <%= link_to "Harbour Island Commonage", root_path, class: "navbar-item has-text-weight-semibold" %>
+
+    <a role="button"
+       class="navbar-burger"
+       aria-label="menu"
+       aria-expanded="false"
+       data-action="click->navbar#toggle">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
   </div>
 
-  <div id="navbarBasic" class="navbar-menu">
+  <div class="navbar-menu" data-navbar-target="menu">
     <div class="navbar-start">
-        <% if Current.user %>
-            <%= link_to "Profile", profile_path, class: "navbar-item" %>
-            <%= link_to "Documents", documents_path, class: "navbar-item" %>
-            <%= link_to "Search", users_path, class: "navbar-item" %>
-        <% end %>
+      <% if Current.user %>
+        <%= link_to "Documents", documents_path, class: "navbar-item" %>
+        <%= link_to "Search", users_path, class: "navbar-item" %>
+      <% end %>
     </div>
-</div>
 
-<div class="navbar-end">
-  <div class="navbar-item">
-    <% if Current.user %>
-      <%= button_to "Logout", session_path, method: :delete, class: "button is-danger is-light" %>
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <% if Current.user %>
+          <div class="is-flex is-align-items-center">
+
+          <%= link_to profile_path, class: "is-flex is-align-items-center mr-4 has-text-dark" do %>
+          <% if Current.user.photo.attached? %>
+            <figure class="image is-40x40 mr-2">
+              <%= image_tag Current.user.photo, class: "is-rounded" %>
+            </figure>
+          <% else %>
+            <figure class="image is-40X40 mr-2">
+              <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/32x32.png">
+            </figure>
+          <% end %>
+
+          <span class="is-size-7 has-text-weight-medium">
+            <%= Current.user.first_name %>
+          </span>
+        <% end %>
+
+        <%= button_to "Logout",
+                      session_path,
+                      method: :delete,
+                      class: "button is-danger is-light" %>
+      </div>
     <% else %>
-      <%= link_to "Sign in", new_session_path, class: "button is-primary" %>
-      <%= link_to "Sign up", new_user_path, class: "button is-primary is-light" %>
+      <div class="buttons">
+        <%= link_to "Sign in", new_session_path, class: "button is-primary" %>
+        <%= link_to "Sign up", new_user_path, class: "button is-light" %>
+      </div>
     <% end %>
   </div>
 </div>
-
+  </div>
 </nav>

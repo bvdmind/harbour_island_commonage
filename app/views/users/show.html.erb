@@ -1,58 +1,99 @@
-<div class="box">
-  <% if @user.photo.attached? %>
-    <figure class="image is-128x128 mb-4">
-      <%= image_tag @user.photo, class: "is-rounded" %>
-    </figure>
-  <% end %>
+<div class="container">
+  <div class="columns is-centered">
+    <div class="column is-8">
 
-  <p><strong>Name:</strong> <%= [@user.first_name, @user.last_name].join(" ").strip %></p>
-
-  <p>
-    <strong>Status:</strong>
-    <% if @user.is_verified? %>
-      <span class="tag is-success">Verified</span>
-    <% else %>
-      <span class="tag is-danger">Unverified</span>
-    <% end %>
-  </p>
-</div>
-
-<h2 class="title is-4">Properties</h2>
-
-<% if @user.properties.any? %>
-  <% @user.properties.each do |property| %>
-    <div class="box">
-      <p><strong>Name:</strong> <%= property.name %></p>
-      <p><strong>Reference:</strong> <%= property.commonage_reference.presence || "N/A" %></p>
-      <p><strong>Address:</strong> <%= property.address.presence || "N/A" %></p>
-    </div>
-  <% end %>
-<% else %>
-  <div class="notification is-light">
-    No properties linked yet.
-  </div>
-<% end %>
-
-<% if Current.user&.admin? || Current.user == @user %>
-  <h2 class="title is-4">Supporting Documents</h2>
-
-  <% if @user.documents.any? %>
-    <% @user.documents.each do |doc| %>
       <div class="box">
-        <p><strong>Type:</strong> <%= doc.document_type %></p>
-        <p><strong>Notes:</strong> <%= doc.notes.presence || "None" %></p>
-        <p><strong>Uploaded:</strong> <%= doc.created_at.strftime("%B %d, %Y") %></p>
+        <div class="is-flex is-justify-content-space-between is-align-items-center">
+          <div class="is-flex is-align-items-center">
 
-        <% if doc.file.attached? %>
-          <%= link_to "View File", url_for(doc.file), class: "button is-link is-light", target: "_blank" %>
-        <% else %>
-          <p>No file attached.</p>
-        <% end %>
+            <% if @user.photo.attached? %>
+              <figure class="image is-96x96 mr-4">
+                <%= image_tag @user.photo, class: "is-rounded" %>
+              </figure>
+            <% else %>
+              <figure class="image is-96x96 mr-4">
+                <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/96x96.png">
+              </figure>
+            <% end %>
+
+            <div>
+              <p class="title is-4 mb-1">
+                <%= [@user.first_name, @user.last_name].join(" ").strip %>
+              </p>
+
+              <div class="is-flex is-align-items-center" style="gap: 0.75rem;">
+                <% if @user.is_verified? %>
+                  <span class="tag is-success is-light">Verified</span>
+                <% else %>
+                  <span class="tag is-danger is-light">Unverified</span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <% if Current.user&.admin? %>
+            <div class="buttons">
+              <%= button_to(
+                    @user.is_verified? ? "Unverify" : "Verify",
+                    toggle_verification_user_path(@user),
+                    method: :patch,
+                    data: {
+                      turbo_confirm: @user.is_verified? ? "Unverify this user?" : "Verify this user?"
+                    },
+                    class: @user.is_verified? ? "button is-warning is-light" : "button is-success is-light"
+                  ) %>
+            </div>
+          <% end %>
+        </div>
       </div>
-    <% end %>
-  <% else %>
-    <div class="notification is-light">
-      No documents uploaded.
+
+      <h2 class="title is-4 mt-6">Properties</h2>
+
+      <% if @user.properties.any? %>
+        <% @user.properties.each do |property| %>
+          <div class="box">
+            <p><strong>Name:</strong> <%= property.name %></p>
+            <p><strong>Reference:</strong> <%= property.commonage_reference.presence || "N/A" %></p>
+            <p><strong>Address:</strong> <%= property.address.presence || "N/A" %></p>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="notification is-light">
+          No properties linked yet.
+        </div>
+      <% end %>
+
+      <% if Current.user&.admin? || Current.user == @user %>
+        <h2 class="title is-4 mt-6">Supporting Documents</h2>
+
+        <% if @user.documents.any? %>
+          <% @user.documents.each do |doc| %>
+            <div class="box">
+              <p><strong>Type:</strong> <%= doc.document_type %></p>
+              <p><strong>Notes:</strong> <%= doc.notes.presence || "None" %></p>
+              <p class="is-size-7 has-text-grey">
+                Uploaded: <%= doc.created_at.strftime("%B %d, %Y") %>
+              </p>
+
+              <div class="buttons mt-3">
+                <% if doc.file.attached? %>
+                  <%= link_to "View File",
+                              url_for(doc.file),
+                              class: "button is-link is-light",
+                              target: "_blank" %>
+                <% else %>
+                  <span class="tag is-light">No file</span>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="notification is-light">
+            No documents uploaded.
+          </div>
+        <% end %>
+      <% end %>
+
     </div>
-  <% end %>
-<% end %>
+  </div>
+</div>

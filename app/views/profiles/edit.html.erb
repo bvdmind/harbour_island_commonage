@@ -1,45 +1,109 @@
-<h1>Edit Profile</h1>
+<div class="container">
+  <div class="columns is-centered">
+    <div class="column is-7">
+      <h1 class="title is-3 mb-5">Edit Profile</h1>
 
-<%= form_with model: @user, url: profile_path do |form| %>
-  <% if @user.errors.any? %>
-    <div>
-      <h3><%= pluralize(@user.errors.count, "error") %> prevented this profile from saving:</h3>
-      <ul>
-        <% @user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+      <%= form_with model: @user, url: profile_path, method: :patch, local: true do |form| %>
+        <% if @user.errors.any? %>
+          <div class="notification is-danger is-light">
+            <h3 class="title is-5">
+              <%= pluralize(@user.errors.count, "error") %> prevented this profile from saving:
+            </h3>
+
+            <ul>
+              <% @user.errors.full_messages.each do |message| %>
+                <li>• <%= message %></li>
+              <% end %>
+            </ul>
+          </div>
         <% end %>
-      </ul>
+
+        <div class="box">
+          <div class="field">
+            <%= form.label :first_name, class: "label" %>
+            <div class="control">
+              <%= form.text_field :first_name, class: "input", placeholder: "First name" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :last_name, class: "label" %>
+            <div class="control">
+              <%= form.text_field :last_name, class: "input", placeholder: "Last name" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :phone, class: "label" %>
+            <div class="control">
+              <%= form.text_field :phone, class: "input", placeholder: "Phone number" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :address, class: "label" %>
+            <div class="control">
+              <%= form.text_area :address, class: "textarea", placeholder: "Address", rows: 4 %>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Profile Photo</label>
+
+            <% if @user.photo.attached? %>
+              <div class="mb-4">
+                <figure class="image is-128x128">
+                  <%= image_tag @user.photo, class: "is-rounded" %>
+                </figure>
+              </div>
+            <% end %>
+
+            <% if @user.photo.attached? %>
+              <div class="field">
+                <div class="control">
+                  <label class="checkbox">
+                    <%= form.check_box :remove_photo %>
+                      Remove current photo
+                  </label>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="control">
+              <div class="file has-name is-fullwidth" data-controller="file-name">
+                <label class="file-label">
+                  <%= form.file_field :photo,
+                        class: "file-input",
+                        data: { action: "change->file-name#update" } %>
+
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Choose a new photo…
+                    </span>
+                  </span>
+
+                  <span class="file-name" data-file-name-target="name">
+                    No file selected
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-grouped mt-5">
+            <div class="control">
+              <%= form.submit "Update Profile", class: "button is-primary" %>
+            </div>
+
+            <div class="control">
+              <%= link_to "Back to Profile", profile_path, class: "button is-light" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
     </div>
-    <% end %>
-
-  <div>
-    <%= form.label :first_name %><br>
-    <%= form.text_field :first_name %>
   </div>
-
-  <div>
-    <%= form.label :last_name %><br>
-    <%= form.text_field :last_name %>
-  </div>
-
-  <div>
-    <%= form.label :phone %><br>
-    <%= form.text_field :phone %>
-  </div>
-
-  <div>
-    <%= form.label :address %><br>
-    <%= form.text_area :address %>
-  </div>
-
-  <div>
-    <%= form.label :photo %><br>
-    <%= form.file_field :photo %>
-  </div>
-
-  <div>
-    <%= form.submit "Update Profile" %>
-  </div>
-
-    <%= link_to "Back to Profile", profile_path %>
-<% end %>
+</div>

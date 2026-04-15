@@ -10,6 +10,10 @@ class ProfilesController < ApplicationController
   def update
     @user = Current.user
 
+    if params[:user][:remove_photo] == "1"
+      @user.photo.purge
+    end
+
     if @user.update(profile_params)
       redirect_to profile_path, notice: "Profile updated."
     else

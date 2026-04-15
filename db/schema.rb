@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_09_225421) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_15_010809) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -45,6 +45,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_225421) do
   create_table "documents", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "document_type"
+    t.boolean "is_verified", default: false, null: false
     t.text "notes"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false

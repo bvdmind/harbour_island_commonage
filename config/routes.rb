@@ -17,12 +17,22 @@ Rails.application.routes.draw do
   root "posts#index"
 
   resources :posts
-  resources :users, only: %i[new create index show]
+
+  resources :users, only: %i[new create index show] do
+    member do
+      patch :toggle_verification
+    end
+  end
+  
   resource :profile, only: %i[show edit update]
 
   resources :properties do
     resources :parcels, except: %i[index show]
   end
-  resources :documents, only: %i[index new create destroy]
-
+  
+  resources :documents, only: %i[index new create destroy] do
+    member do
+      patch :toggle_verification
+    end
+  end
 end
